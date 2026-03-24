@@ -90,7 +90,7 @@
             gap: 1rem;
         }
 
-        button {
+        button, .btn-select {
             cursor: pointer;
             border: none;
             border-radius: var(--radius-md);
@@ -102,6 +102,12 @@
             align-items: center;
             gap: 0.5rem;
             justify-content: center;
+        }
+
+        .btn-select {
+            border: 1px solid var(--border);
+            background-color: var(--bg-color);
+            color: var(--text-main);
         }
 
         .btn-primary {
@@ -125,19 +131,10 @@
             height: 40px;
         }
 
-        .btn-icon:hover {
-            background-color: var(--gap-bg);
-        }
-
         .btn-text {
             background: transparent;
             color: var(--text-muted);
             padding: 0.4rem 0.8rem;
-        }
-
-        .btn-text:hover {
-            color: var(--text-main);
-            background-color: var(--gap-bg);
         }
 
         .btn-danger-text {
@@ -146,17 +143,9 @@
             padding: 0.4rem;
         }
 
-        .btn-danger-text:hover {
-            background-color: rgba(239, 68, 68, 0.1);
-        }
-
         .btn-save {
             background-color: #10b981;
             color: white;
-        }
-
-        .btn-save:hover {
-            background-color: #059669;
         }
 
         .timeline-card {
@@ -169,21 +158,12 @@
             overflow: hidden;
         }
 
-        .timeline-card:hover {
-            box-shadow: var(--shadow-hover);
-        }
-
         .card-header {
             padding: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .card-header:hover {
-            background-color: var(--card-hover);
         }
 
         .card-title-display {
@@ -222,12 +202,6 @@
 
         .expanded .card-body {
             display: block;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Stats Cards */
@@ -263,7 +237,6 @@
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .config-row {
@@ -283,13 +256,7 @@
             background-color: var(--bg-color);
             transition: border-color 0.2s;
             flex: 1;
-            min-width: 200px;
-        }
-
-        input[type="text"]:focus, input[type="date"]:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            min-width: 150px;
         }
 
         input[type="color"] {
@@ -311,24 +278,14 @@
             text-transform: uppercase;
             color: var(--text-muted);
             margin-bottom: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        /* Editor de Periodo */
         .period-editor {
             background-color: var(--bg-color);
             border: 1px dashed var(--border);
             border-radius: var(--radius-md);
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; height: 0; padding: 0; overflow: hidden; }
-            to { opacity: 1; height: auto; }
         }
 
         .editor-grid {
@@ -350,56 +307,52 @@
             color: var(--text-muted);
         }
 
-        /* Timeline Visual (Nuevo Layout con conectores y años) */
+        /* Timeline Visual - Alternado Arriba/Abajo */
         .timeline-scroll-wrapper {
             width: 100%;
             overflow-x: auto;
             padding-bottom: 1rem;
+            padding-top: 1rem;
         }
 
         .timeline-wrapper {
             position: relative;
-            margin-top: 1rem;
-            min-width: 800px; /* Evita que se aplaste en móviles */
+            min-width: 800px;
         }
 
         .timeline-base-line {
             position: absolute;
-            bottom: 30px;
             left: 0;
             right: 0;
             height: 4px;
             background-color: var(--border);
             border-radius: 2px;
             z-index: 1;
+            transform: translateY(-50%);
         }
 
         .year-tick {
             position: absolute;
-            bottom: 25px;
             width: 2px;
             height: 14px;
             background-color: var(--text-muted);
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             z-index: 2;
         }
 
         .year-label {
             position: absolute;
-            bottom: 5px;
             transform: translateX(-50%);
             font-size: 0.8rem;
             color: var(--text-muted);
             font-weight: 700;
+            margin-top: 12px;
         }
 
-        /* Conectores y Cajas de Periodos */
         .period-connector {
             position: absolute;
             border-left: 2px dashed;
             border-right: 2px dashed;
-            border-top: 2px solid;
-            border-radius: 6px 6px 0 0;
             z-index: 2;
             opacity: 0.6;
         }
@@ -407,28 +360,25 @@
         .period-box {
             position: absolute;
             transform: translateX(-50%);
-            border-radius: var(--radius-md);
-            color: #ffffff;
             padding: 0.5rem 1rem;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
             cursor: pointer;
             z-index: 10;
             transition: var(--transition);
             white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .period-box:hover {
             transform: translateX(-50%) scale(1.05);
             z-index: 20;
-            box-shadow: 0 8px 12px rgba(0,0,0,0.2);
         }
 
         .period-box strong {
-            display: block;
             font-size: 0.9rem;
             margin-bottom: 0.2rem;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
 
         .period-box small {
@@ -437,17 +387,77 @@
             opacity: 0.9;
         }
 
-        /* Gaps (Sin registro) */
+        /* ==================================
+           5 ESTILOS DIFERENTES DE LÍNEA
+           ================================== */
+        
+        /* 1. CLÁSICO (Por defecto) */
+        .style-classic .period-box {
+            background-color: var(--box-color);
+            color: #ffffff;
+            border-radius: var(--radius-md);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+        /* 2. MINIMALISTA */
+        .style-minimal .period-box {
+            background-color: transparent;
+            color: var(--text-main);
+            border-left: 4px solid var(--box-color);
+            padding: 0.2rem 0.5rem;
+            align-items: flex-start;
+        }
+        .style-minimal .period-box strong { color: var(--box-color); }
+
+        /* 3. BURBUJAS */
+        .style-bubbles .period-box {
+            background-color: var(--box-color);
+            color: #ffffff;
+            border-radius: 30px;
+            box-shadow: inset 0 -3px 5px rgba(0,0,0,0.2), 0 4px 5px rgba(0,0,0,0.1);
+            border: 2px solid var(--card-bg);
+        }
+
+        /* 4. TARJETAS */
+        .style-cards .period-box {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border-top: 4px solid var(--box-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-bottom: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+        }
+
+        /* 5. NEÓN */
+        .style-neon .period-box {
+            background-color: #050505;
+            color: #ffffff;
+            border: 1px solid var(--box-color);
+            border-radius: 8px;
+            box-shadow: 0 0 10px var(--box-color), inset 0 0 5px rgba(255,255,255,0.1);
+        }
+        .style-neon .period-box strong {
+            color: var(--box-color);
+            text-shadow: 0 0 5px var(--box-color);
+        }
+        .style-neon .period-connector {
+            border-style: solid;
+            box-shadow: 0 0 5px var(--box-color);
+            opacity: 0.8;
+        }
+
         .gap-block {
             position: absolute;
             height: 4px;
-            bottom: 30px;
             background-color: transparent;
             z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
             border-bottom: 3px dotted var(--gap-text);
+            transform: translateY(-50%);
         }
 
         .gap-text {
@@ -456,9 +466,7 @@
             font-size: 0.7rem;
             color: var(--gap-text);
             font-weight: 700;
-            letter-spacing: 0.5px;
             text-transform: uppercase;
-            white-space: nowrap;
         }
 
         .empty-state {
@@ -485,11 +493,7 @@
             z-index: 9999;
             font-weight: 600;
         }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        .toast.show { transform: translateY(0); opacity: 1; }
 
         @media (max-width: 600px) {
             .editor-grid { grid-template-columns: 1fr; }
@@ -503,12 +507,8 @@
         <header>
             <h1>Timeline Master</h1>
             <div class="header-actions">
-                <button class="btn-icon" onclick="app.toggleTheme()" title="Cambiar Tema" id="theme-btn">
-                    🌙
-                </button>
-                <button class="btn-primary" onclick="app.addTimeline()">
-                    ➕ Nueva Línea
-                </button>
+                <button class="btn-icon" onclick="app.toggleTheme()" title="Cambiar Tema" id="theme-btn">🌙</button>
+                <button class="btn-primary" onclick="app.addTimeline()">➕ Nueva Línea</button>
             </div>
         </header>
 
@@ -520,10 +520,7 @@
 
     <script>
         const App = {
-            data: {
-                timelines: [],
-                theme: 'light'
-            },
+            data: { timelines: [], theme: 'light' },
 
             init() {
                 this.loadTheme();
@@ -549,26 +546,17 @@
             },
 
             loadData() {
-                const stored = localStorage.getItem('tm_data_v3');
+                const stored = localStorage.getItem('tm_data_v4');
                 if (stored) {
                     try {
                         this.data.timelines = JSON.parse(stored);
-                        this.data.timelines.forEach(t => {
-                            t.periods.forEach(p => p.isEditing = false);
-                        });
-                    } catch (e) {
-                        this.data.timelines = [];
-                    }
+                        this.data.timelines.forEach(t => t.periods.forEach(p => p.isEditing = false));
+                    } catch (e) { this.data.timelines = []; }
                 }
             },
 
-            saveData() {
-                localStorage.setItem('tm_data_v3', JSON.stringify(this.data.timelines));
-            },
-
-            generateId() {
-                return Math.random().toString(36).substr(2, 9);
-            },
+            saveData() { localStorage.setItem('tm_data_v4', JSON.stringify(this.data.timelines)); },
+            generateId() { return Math.random().toString(36).substr(2, 9); },
 
             showToast(msg) {
                 const toast = document.getElementById('toast');
@@ -578,76 +566,48 @@
             },
 
             calculateMonths(startStr, endStr) {
-                const s = new Date(startStr);
-                const e = new Date(endStr);
+                const s = new Date(startStr); const e = new Date(endStr);
                 s.setMinutes(s.getMinutes() + s.getTimezoneOffset());
                 e.setMinutes(e.getMinutes() + e.getTimezoneOffset());
-                const diffTime = e - s;
-                const diffDays = diffTime / (1000 * 60 * 60 * 24);
-                return Math.max(0, diffDays / 30.436875).toFixed(1);
+                return Math.max(0, (e - s) / (1000 * 60 * 60 * 24) / 30.436875).toFixed(1);
             },
-
-            // --- Acciones de Timeline ---
 
             addTimeline() {
                 this.data.timelines.unshift({
-                    id: this.generateId(),
-                    name: 'Nueva Línea de Tiempo',
-                    color: '#3b82f6',
-                    expanded: true,
-                    periods: []
+                    id: this.generateId(), name: 'Nueva Línea de Tiempo',
+                    color: '#3b82f6', style: 'style-classic', expanded: true, periods: []
                 });
-                this.saveData();
-                this.render();
-                this.showToast('Línea creada');
+                this.saveData(); this.render(); this.showToast('Línea creada');
             },
 
             deleteTimeline(id) {
-                if(confirm('¿Eliminar esta línea de tiempo por completo?')) {
+                if(confirm('¿Eliminar esta línea completa?')) {
                     this.data.timelines = this.data.timelines.filter(t => t.id !== id);
-                    this.saveData();
-                    this.render();
+                    this.saveData(); this.render();
                 }
             },
 
             toggleTimeline(id) {
                 const t = this.data.timelines.find(t => t.id === id);
-                if (t) {
-                    t.expanded = !t.expanded;
-                    this.render();
-                }
+                if (t) { t.expanded = !t.expanded; this.render(); }
             },
 
             updateTimelineField(id, field, value) {
                 const t = this.data.timelines.find(t => t.id === id);
-                if (t) {
-                    t[field] = value;
-                    this.saveData();
-                    if(field === 'color') this.render();
-                }
+                if (t) { t[field] = value; this.saveData(); this.render(); }
             },
-
-            // --- Acciones de Periodos ---
 
             addPeriod(timelineId) {
                 const t = this.data.timelines.find(t => t.id === timelineId);
                 if (t) {
                     t.periods.forEach(p => p.isEditing = false);
-                    
                     const today = new Date().toISOString().split('T')[0];
-                    const nextMonth = new Date();
-                    nextMonth.setMonth(nextMonth.getMonth() + 1);
-                    
+                    const nextMonth = new Date(); nextMonth.setMonth(nextMonth.getMonth() + 1);
                     t.periods.push({
-                        id: this.generateId(),
-                        name: 'Nuevo Periodo',
-                        color: t.color,
-                        start: today,
-                        end: nextMonth.toISOString().split('T')[0],
-                        isEditing: true
+                        id: this.generateId(), name: 'Nuevo Periodo',
+                        color: t.color, start: today, end: nextMonth.toISOString().split('T')[0], isEditing: true
                     });
-                    this.saveData();
-                    this.render();
+                    this.saveData(); this.render();
                 }
             },
 
@@ -656,67 +616,71 @@
                 if (t) {
                     const p = t.periods.find(p => p.id === periodId);
                     if (p) {
-                        const nInput = document.getElementById(`name-${periodId}`).value;
-                        const cInput = document.getElementById(`color-${periodId}`).value;
-                        const sInput = document.getElementById(`start-${periodId}`).value;
-                        const eInput = document.getElementById(`end-${periodId}`).value;
-
-                        if (!sInput || !eInput || !nInput) {
-                            this.showToast('⚠️ Todos los campos son obligatorios');
-                            return;
-                        }
-
-                        if (new Date(eInput) <= new Date(sInput)) {
-                            this.showToast('⚠️ La fecha de fin debe ser mayor a la inicial');
-                            return;
-                        }
-
-                        p.name = nInput;
-                        p.color = cInput;
-                        p.start = sInput;
-                        p.end = eInput;
-                        p.isEditing = false;
-                        
-                        this.saveData();
-                        this.render();
-                        this.showToast('Periodo guardado');
+                        const s = document.getElementById(`start-${periodId}`).value;
+                        const e = document.getElementById(`end-${periodId}`).value;
+                        if (new Date(e) <= new Date(s)) return this.showToast('⚠️ Fecha fin debe ser mayor');
+                        p.name = document.getElementById(`name-${periodId}`).value || 'Sin nombre';
+                        p.color = document.getElementById(`color-${periodId}`).value;
+                        p.start = s; p.end = e; p.isEditing = false;
+                        this.saveData(); this.render(); this.showToast('Guardado');
                     }
                 }
             },
 
             editPeriod(timelineId, periodId) {
                 const t = this.data.timelines.find(t => t.id === timelineId);
-                if (t) {
-                    t.periods.forEach(p => p.isEditing = (p.id === periodId));
-                    this.render();
-                }
+                if (t) { t.periods.forEach(p => p.isEditing = (p.id === periodId)); this.render(); }
             },
 
             deletePeriod(timelineId, periodId) {
                 const t = this.data.timelines.find(t => t.id === timelineId);
-                if (t) {
-                    t.periods = t.periods.filter(p => p.id !== periodId);
-                    this.saveData();
-                    this.render();
-                }
+                if (t) { t.periods = t.periods.filter(p => p.id !== periodId); this.saveData(); this.render(); }
             },
 
-            // --- Renderizado Visual ---
+            // Exportar HTML Independiente
+            exportHTML(timelineId) {
+                const t = this.data.timelines.find(t => t.id === timelineId);
+                if (!t) return;
+                
+                const card = document.querySelector(`.timeline-card[data-id="${t.id}"]`).cloneNode(true);
+                // Limpiar elementos interactivos de la copia exportada
+                card.querySelectorAll('.config-row, .expand-icon, .editor-grid, .period-editor, .btn-text, .btn-danger-text, button').forEach(el => el.remove());
+                card.classList.add('expanded'); // Forzar abierto
+                
+                const styles = document.querySelector('style').outerHTML;
+                const html = `<!DOCTYPE html>
+                <html lang="es" data-theme="${this.data.theme}">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Export - ${t.name}</title>
+                    ${styles}
+                    <style>
+                        body { padding: 3rem 2rem; background-color: var(--bg-color); }
+                        .timeline-card { cursor: default; }
+                        .timeline-card:hover { transform: none; box-shadow: var(--shadow); }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">${card.outerHTML}</div>
+                </body>
+                </html>`;
+
+                const blob = new Blob([html], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `timeline-${t.name.replace(/\s+/g, '-').toLowerCase()}.html`;
+                a.click();
+                URL.revokeObjectURL(url);
+                this.showToast('Exportado a HTML');
+            },
 
             render() {
                 const container = document.getElementById('app-content');
-                
                 if (this.data.timelines.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
-                            <h2>No tienes líneas de tiempo</h2>
-                            <p>Haz clic en "+ Nueva Línea" para comenzar a planificar.</p>
-                        </div>
-                    `;
+                    container.innerHTML = `<div class="empty-state"><h2>No tienes líneas de tiempo</h2><p>Haz clic en "+ Nueva Línea"</p></div>`;
                     return;
                 }
-
                 container.innerHTML = this.data.timelines.map(t => this.renderTimeline(t)).join('');
             },
 
@@ -724,172 +688,114 @@
                 const validPeriods = t.periods.filter(p => !p.isEditing && p.start && p.end);
                 const editingPeriods = t.periods.filter(p => p.isEditing);
 
-                // Tarjetas de Totales (Stats)
                 const totalPeriods = validPeriods.length;
                 const totalMonthsAll = validPeriods.reduce((acc, p) => acc + parseFloat(this.calculateMonths(p.start, p.end)), 0).toFixed(1);
 
-                const statsHTML = `
-                    <div class="stats-row">
-                        <div class="stat-card">
-                            <div class="stat-value">${totalPeriods}</div>
-                            <div class="stat-label">Periodos Registrados</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">${totalMonthsAll}</div>
-                            <div class="stat-label">Meses en Total</div>
-                        </div>
-                    </div>
-                `;
-
-                // Construir HTML de las cajas de edición
                 const editorsHTML = editingPeriods.map(p => `
                     <div class="period-editor">
                         <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
                             <strong>Añadir/Editar Periodo</strong>
-                            <button class="btn-danger-text" onclick="app.deletePeriod('${t.id}', '${p.id}')">Eliminar Periodo</button>
+                            <button class="btn-danger-text" onclick="app.deletePeriod('${t.id}', '${p.id}')">Eliminar</button>
                         </div>
                         <div class="editor-grid">
-                            <div class="editor-group">
-                                <label>Nombre del Periodo</label>
-                                <input type="text" id="name-${p.id}" value="${p.name || ''}" placeholder="Ej. Fase de Diseño">
-                            </div>
-                            <div class="editor-group">
-                                <label>Color Personalizado</label>
-                                <input type="color" id="color-${p.id}" value="${p.color || t.color}">
-                            </div>
-                            <div class="editor-group">
-                                <label>Fecha de Inicio</label>
-                                <input type="date" id="start-${p.id}" value="${p.start}">
-                            </div>
-                            <div class="editor-group">
-                                <label>Fecha de Fin</label>
-                                <input type="date" id="end-${p.id}" value="${p.end}">
-                            </div>
+                            <div class="editor-group"><label>Nombre</label><input type="text" id="name-${p.id}" value="${p.name}"></div>
+                            <div class="editor-group"><label>Color</label><input type="color" id="color-${p.id}" value="${p.color}"></div>
+                            <div class="editor-group"><label>Inicio</label><input type="date" id="start-${p.id}" value="${p.start}"></div>
+                            <div class="editor-group"><label>Fin</label><input type="date" id="end-${p.id}" value="${p.end}"></div>
                         </div>
-                        <div style="text-align: right; margin-top: 1rem;">
-                            <button class="btn-save" onclick="app.savePeriod('${t.id}', '${p.id}')">✅ Guardar y Ver en Línea</button>
-                        </div>
+                        <div style="text-align: right;"><button class="btn-save" onclick="app.savePeriod('${t.id}', '${p.id}')">Guardar</button></div>
                     </div>
                 `).join('');
 
-                // Lógica Gráfica con Despliegues y Años
                 let visualHTML = '';
-                
                 if (validPeriods.length > 0) {
-                    // Extraer límite de años absoluto
                     let minDate = new Date(Math.min(...validPeriods.map(p => new Date(p.start))));
                     let maxDate = new Date(Math.max(...validPeriods.map(p => new Date(p.end))));
-                    
                     let minYear = minDate.getFullYear();
                     let maxYear = maxDate.getFullYear();
-                    
-                    if (minYear === maxYear) {
-                        maxYear++; // Asegurar un rango visual mínimo de 1 año si todo pasa en el mismo
-                    }
+                    if (minYear === maxYear) maxYear++; 
 
-                    // El inicio y fin del eje de tiempo completo
                     const timelineStart = new Date(minYear, 0, 1).getTime();
                     const timelineEnd = new Date(maxYear, 11, 31).getTime();
                     const totalDuration = timelineEnd - timelineStart;
 
-                    // Dibujar marcas de los Años
-                    let axisHTML = '<div class="timeline-base-line"></div>';
+                    let axisHTML = '';
                     for (let y = minYear; y <= maxYear; y++) {
-                        const yTime = new Date(y, 0, 1).getTime();
-                        const left = ((yTime - timelineStart) / totalDuration) * 100;
-                        axisHTML += `
-                            <div class="year-tick" style="left: ${left}%"></div>
-                            <div class="year-label" style="left: ${left}%">${y}</div>
-                        `;
+                        const left = ((new Date(y, 0, 1).getTime() - timelineStart) / totalDuration) * 100;
+                        axisHTML += `<div class="year-tick" style="left: ${left}%; top: 50%;"></div>
+                                     <div class="year-label" style="left: ${left}%; top: calc(50% + 5px);">${y}</div>`;
                     }
 
-                    // Asignar niveles para que no se superpongan
+                    // Lógica Arriba / Abajo alternada
                     const sorted = [...validPeriods].sort((a,b) => new Date(a.start) - new Date(b.start));
-                    let levelsArray = []; // Guarda el tiempo de fin de cada nivel
+                    let levelsAbove = []; let levelsBelow = [];
                     
-                    sorted.forEach(p => {
+                    sorted.forEach((p, index) => {
                         let pStart = new Date(p.start).getTime();
                         let pEnd = new Date(p.end).getTime();
+                        let isAbove = (index % 2 === 0);
+                        let targetArray = isAbove ? levelsAbove : levelsBelow;
+                        
                         let placed = false;
-                        for(let i = 0; i < levelsArray.length; i++) {
-                            // Si el nivel está libre en esta fecha de inicio (con un pequeño margen visual extra)
-                            if (levelsArray[i] <= pStart) {
-                                p.level = i;
-                                levelsArray[i] = pEnd;
-                                placed = true;
-                                break;
+                        for(let i = 0; i < targetArray.length; i++) {
+                            if (targetArray[i] <= pStart) {
+                                p.level = i; p.isAbove = isAbove; targetArray[i] = pEnd; placed = true; break;
                             }
                         }
-                        if(!placed) {
-                            p.level = levelsArray.length;
-                            levelsArray.push(pEnd);
-                        }
+                        if(!placed) { p.level = targetArray.length; p.isAbove = isAbove; targetArray.push(pEnd); }
                     });
 
-                    // Dibujar Periodos y Gaps
+                    // Altura del contenedor calculada dinámicamente
+                    const axisY = (levelsAbove.length * 70) + 60; 
+                    const wrapperHeight = axisY + (levelsBelow.length * 70) + 60;
+
                     let trackContent = '';
-                    let gapCurrentPos = new Date(sorted[0].start).getTime(); // Inicia en el primer periodo real
+                    let gapPos = new Date(sorted[0].start).getTime();
 
                     sorted.forEach((p) => {
                         const pStart = new Date(p.start).getTime();
                         const pEnd = new Date(p.end).getTime();
                         
-                        // Evaluar Sin Registro (Gap)
-                        if (pStart > gapCurrentPos) {
-                            const gapLeft = ((gapCurrentPos - timelineStart) / totalDuration) * 100;
-                            const gapWidth = ((pStart - gapCurrentPos) / totalDuration) * 100;
-                            
-                            // Mostrar solo si el espacio es suficientemente grande visualmente
-                            const labelText = gapWidth > 5 ? '<span class="gap-text">Sin registro</span>' : '';
-                            trackContent += `
-                                <div class="gap-block" style="left: ${gapLeft}%; width: ${gapWidth}%;">
-                                    ${labelText}
-                                </div>
-                            `;
+                        if (pStart > gapPos) {
+                            const gapLeft = ((gapPos - timelineStart) / totalDuration) * 100;
+                            const gapWidth = ((pStart - gapPos) / totalDuration) * 100;
+                            if (gapWidth > 5) {
+                                trackContent += `<div class="gap-block" style="left: ${gapLeft}%; width: ${gapWidth}%; top: ${axisY}px;">
+                                    <span class="gap-text">Sin registro</span></div>`;
+                            }
                         }
-                        gapCurrentPos = Math.max(gapCurrentPos, pEnd);
+                        gapPos = Math.max(gapPos, pEnd);
 
-                        // Calcular posiciones del periodo
                         const width = ((pEnd - pStart) / totalDuration) * 100;
                         const left = ((pStart - timelineStart) / totalDuration) * 100;
                         const midPoint = left + (width / 2);
                         const months = this.calculateMonths(p.start, p.end);
                         
-                        // Altura basada en el nivel calculado (70px por nivel de altura)
-                        const bottomHeight = (p.level * 70) + 30; 
-
-                        trackContent += `
-                            <div class="period-connector" style="
-                                left: ${left}%; 
-                                width: ${width}%; 
-                                bottom: 30px; 
-                                height: ${bottomHeight - 20}px; 
-                                border-color: ${p.color};">
-                            </div>
-                            
-                            <div class="period-box" 
-                                 style="left: ${midPoint}%; bottom: ${bottomHeight}px; background-color: ${p.color};"
-                                 onclick="app.editPeriod('${t.id}', '${p.id}')"
-                                 title="Clic para editar">
-                                <strong>${p.name}</strong>
-                                <small>${p.start} ➝ ${p.end} (${months}m)</small>
-                            </div>
-                        `;
+                        if (p.isAbove) {
+                            trackContent += `
+                                <div class="period-connector" style="left: ${left}%; width: ${width}%; bottom: calc(100% - ${axisY}px); height: ${p.level * 70 + 20}px; border-top: 2px solid; border-color: ${p.color}; border-radius: 6px 6px 0 0;"></div>
+                                <div class="period-box" style="left: ${midPoint}%; bottom: calc(100% - ${axisY}px + ${p.level * 70 + 20}px); --box-color: ${p.color};" onclick="app.editPeriod('${t.id}', '${p.id}')">
+                                    <strong>${p.name}</strong><small>${p.start} a ${p.end} (${months}m)</small>
+                                </div>`;
+                        } else {
+                            trackContent += `
+                                <div class="period-connector" style="left: ${left}%; width: ${width}%; top: ${axisY}px; height: ${p.level * 70 + 20}px; border-bottom: 2px solid; border-color: ${p.color}; border-radius: 0 0 6px 6px;"></div>
+                                <div class="period-box" style="left: ${midPoint}%; top: calc(${axisY}px + ${p.level * 70 + 20}px); --box-color: ${p.color};" onclick="app.editPeriod('${t.id}', '${p.id}')">
+                                    <strong>${p.name}</strong><small>${p.start} a ${p.end} (${months}m)</small>
+                                </div>`;
+                        }
                     });
-
-                    // Calcular altura total del contenedor dinámicamente según la cantidad de niveles
-                    const wrapperHeight = Math.max(150, (levelsArray.length * 70) + 80);
 
                     visualHTML = `
                         <div class="timeline-scroll-wrapper">
-                            <div class="timeline-wrapper" style="height: ${wrapperHeight}px;">
-                                ${axisHTML}
+                            <div class="timeline-wrapper ${t.style || 'style-classic'}" style="height: ${wrapperHeight}px;">
+                                <div class="timeline-base-line" style="top: ${axisY}px;"></div>
+                                <div style="position: absolute; width: 100%; top: ${axisY}px;">${axisHTML}</div>
                                 ${trackContent}
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 } else if (editingPeriods.length === 0) {
-                    visualHTML = `<div class="empty-state" style="padding: 2rem; border: none;">No hay fechas registradas.</div>`;
+                    visualHTML = `<div class="empty-state">No hay fechas registradas.</div>`;
                 }
 
                 return `
@@ -903,24 +809,29 @@
                         </div>
 
                         <div class="card-body">
-                            ${statsHTML}
+                            <div class="stats-row">
+                                <div class="stat-card"><div class="stat-value">${totalPeriods}</div><div class="stat-label">Periodos</div></div>
+                                <div class="stat-card"><div class="stat-value">${totalMonthsAll}</div><div class="stat-label">Meses Totales</div></div>
+                            </div>
 
                             <div class="config-row">
-                                <input type="text" value="${t.name}" 
-                                    onblur="app.updateTimelineField('${t.id}', 'name', this.value)" 
-                                    placeholder="Nombre general del proyecto / línea">
-                                <input type="color" value="${t.color}" 
-                                    onchange="app.updateTimelineField('${t.id}', 'color', this.value)"
-                                    title="Color base de la línea">
+                                <input type="text" value="${t.name}" onblur="app.updateTimelineField('${t.id}', 'name', this.value)" placeholder="Nombre del proyecto">
+                                <input type="color" value="${t.color}" onchange="app.updateTimelineField('${t.id}', 'color', this.value)">
+                                <select class="btn-select" onchange="app.updateTimelineField('${t.id}', 'style', this.value)">
+                                    <option value="style-classic" ${t.style === 'style-classic' ? 'selected' : ''}>Estilo Clásico</option>
+                                    <option value="style-minimal" ${t.style === 'style-minimal' ? 'selected' : ''}>Estilo Minimalista</option>
+                                    <option value="style-bubbles" ${t.style === 'style-bubbles' ? 'selected' : ''}>Estilo Burbujas</option>
+                                    <option value="style-cards" ${t.style === 'style-cards' ? 'selected' : ''}>Estilo Tarjetas</option>
+                                    <option value="style-neon" ${t.style === 'style-neon' ? 'selected' : ''}>Estilo Neón</option>
+                                </select>
                                 <button class="btn-text" onclick="app.addPeriod('${t.id}')">➕ Agregar Periodo</button>
-                                <button class="btn-danger-text" onclick="app.deleteTimeline('${t.id}')" style="margin-left: auto;">Eliminar Línea Completa</button>
+                                <button class="btn-primary" onclick="app.exportHTML('${t.id}')" style="margin-left: auto;">💾 Exportar a HTML</button>
+                                <button class="btn-danger-text" onclick="app.deleteTimeline('${t.id}')">Eliminar</button>
                             </div>
 
                             ${editorsHTML}
 
-                            <div class="section-title">
-                                <span>Línea de Tiempo Gráfica</span>
-                            </div>
+                            <div class="section-title"><span>Línea de Tiempo Gráfica</span></div>
                             ${visualHTML}
                         </div>
                     </div>
