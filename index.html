@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Manager Pro</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --overlap: #f97316;
+            --border: #e5e7eb;
+            --radius-lg: 12px;
+            --radius-md: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-danger {
+            background-color: #fee2e2;
+            color: var(--danger);
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-color);
+        }
+
+        .timeline-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.4s ease-out;
+            border: 1px solid var(--border);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .card-title-group {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            color: var(--text-main);
+            transition: border-color 0.2s;
+            background-color: #f9fafb;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .title-input {
+            font-size: 1.5rem !important;
+            font-weight: 700;
+            border: none !important;
+            background: transparent !important;
+            padding: 0.25rem 0 !important;
+            margin-bottom: 0.5rem;
+            box-shadow: none !important;
+        }
+
+        .title-input:focus {
+            border-bottom: 2px solid var(--primary) !important;
+        }
+
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+            background: none;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: 2px solid var(--border);
+            border-radius: 50%;
+        }
+
+        .periods-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .period-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .period-item:hover {
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+        }
+
+        .visual-container {
+            position: relative;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border);
+        }
+
+        .visual-timeline {
+            position: relative;
+            height: 48px;
+            background-color: #e5e7eb;
+            border-radius: 24px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .period-block {
+            position: absolute;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 24px;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 0.5rem;
+            user-select: none;
+        }
+
+        .period-block:hover {
+            filter: brightness(1.1);
+            transform: scaleY(1.05);
+            z-index: 10;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--text-main);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .period-item {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-primary {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Timeline Manager Pro</h1>
+            <button class="btn-primary" onclick="app.addTimeline()">
+                <span>➕</span> Nueva Línea de Tiempo
+            </button>
+        </header>
+
+        <main id="app-content">
+            </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const App = {
+            data: {
+                timelines: []
+            },
+
+            init() {
+                this.loadData();
+                this.render();
+            },
+
+            loadData() {
+                const stored = localStorage.getItem('timeline_data');
+                if (stored) {
+                    try {
+                        this.data.timelines = JSON.parse(stored);
+                    } catch (e) {
+                        console.error("Error parsing local storage data", e);
+                        this.data.timelines = [];
+                    }
+                }
+            },
+
+            saveData() {
+                localStorage.setItem('timeline_data', JSON.stringify(this.data.timelines));
+            },
+
+            generateId() {
+                return Math.random().toString(36).substr(2, 9);
+            },
+
+            showToast(msg) {
+                const toast = document.getElementById('toast');
+                toast.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            },
+
+            // --- Logic Methods ---
+
+            calculateMonths(startStr, endStr) {
+                const s = new Date(startStr);
+                const e = new Date(endStr);
+                
+                // Set to midnight to avoid timezone shift issues
+                s.setMinutes(s.getMinutes() + s.getTimezoneOffset());
+                e.setMinutes(e.getMinutes() + e.getTimezoneOffset());
+
+                const diffTime = e - s;
+                const diffDays = diffTime / (1000 * 60 * 60 * 24);
+                // Average days in a month: 30.436875
+                const months = diffDays / 30.436875;
+                return Math.max(0, months).toFixed(1);
+            },
+
+            checkOverlaps(timeline) {
+                // Reset overlaps
+                timeline.periods.forEach(p => p.overlap = false);
+
+                for (let i = 0; i < timeline.periods.length; i++) {
+                    for (let j = i + 1; j < timeline.periods.length; j++) {
+                        const startA = new Date(timeline.periods[i].start).getTime();
+                        const endA = new Date(timeline.periods[i].end).getTime();
+                        const startB = new Date(timeline.periods[j].start).getTime();
+                        const endB = new Date(timeline.periods[j].end).getTime();
+
+                        // Condition for overlap
+                        if (startA < endB && endA > startB) {
+                            timeline.periods[i].overlap = true;
+                            timeline.periods[j].overlap = true;
+                        }
+                    }
+                }
+            },
+
+            // --- Actions ---
+
+            addTimeline() {
+                const newTimeline = {
+                    id: this.generateId(),
+                    name: 'Nueva Línea de Tiempo',
+                    notes: '',
+                    color: '#3b82f6', // Default primary blue
+                    periods: []
+                };
+                this.data.timelines.unshift(newTimeline);
+                this.saveData();
+                this.render();
+                this.showToast('Línea de tiempo creada');
+            },
+
+            deleteTimeline(id) {
+                if(confirm('¿Estás seguro de eliminar esta línea de tiempo completa?')) {
+                    this.data.timelines = this.data.timelines.filter(t => t.id !== id);
+                    this.saveData();
+                    this.render();
+                    this.showToast('Línea de tiempo eliminada');
+                }
+            },
+
+            updateTimeline(id, field, value) {
+                const t = this.data.timelines.find(t => t.id === id);
+                if (t) {
+                    t[field] = value;
+                    this.saveData();
+                    if(field === 'color') this.render(); // Re-render for color change
+                }
+            },
+
+            addPeriod(timelineId) {
+                const t = this.data.timelines.find(t => t.id === timelineId);
+                if (t) {
+                    const today = new Date().toISOString().split('T')[0];
+                    const nextMonth = new Date();
+                    nextMonth.setMonth(nextMonth.getMonth() + 1);
+                    const nextMonthStr = nextMonth.toISOString().split('T')[0];
+
+                    t.periods.push({
+                        id: this.generateId(),
+                        start: today,
+                        end: nextMonthStr,
+                        overlap: false
+                    });
+                    this.checkOverlaps(t);
+                    this.saveData();
+                    this.render();
+                }
+            },
+
+            deletePeriod(timelineId, periodId) {
+                const t = this.data.timelines.find(t => t.id === timelineId);
+                if (t) {
+                    t.periods = t.periods.filter(p => p.id !== periodId);
+                    this.checkOverlaps(t);
+                    this.saveData();
+                    this.render();
+                }
+            },
+
+            updatePeriod(timelineId, periodId, field, value) {
+                const t = this.data.timelines.find(t => t.id === timelineId);
+                if (t) {
+                    const p = t.periods.find(p => p.id === periodId);
+                    if (p) {
+                        p[field] = value;
+                        
+                        // Validation
+                        if (p.start && p.end) {
+                            if (new Date(p.end) < new Date(p.start)) {
+                                this.showToast('⚠️ La fecha de fin no puede ser menor a la inicial');
+                                // Revert visually
+                                this.render();
+                                return;
+                            }
+                        }
+                        
+                        this.checkOverlaps(t);
+                        this.saveData();
+                        this.render();
+                    }
+                }
+            },
+
+            // --- Rendering ---
+
+            render() {
+                const container = document.getElementById('app-content');
+                
+                if (this.data.timelines.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                            <h2>No hay líneas de tiempo</h2>
+                            <p>Crea una nueva para comenzar a gestionar tus periodos.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.data.timelines.map(t => this.createTimelineHTML(t)).join('');
+            },
+
+            createTimelineHTML(t) {
+                // Determine Visual Scale Limits
+                let minTime = Infinity;
+                let maxTime = -Infinity;
+
+                t.periods.forEach(p => {
+                    if(p.start && p.end) {
+                        const s = new Date(p.start).getTime();
+                        const e = new Date(p.end).getTime();
+                        if (s < minTime) minTime = s;
+                        if (e > maxTime) maxTime = e;
+                    }
+                });
+
+                const totalDuration = maxTime - minTime;
+
+                // Build Periods Inputs
+                const periodsHTML = t.periods.map(p => `
+                    <div class="period-item">
+                        <div class="input-group">
+                            <label>Inicio</label>
+                            <input type="date" value="${p.start}" 
+                                onchange="app.updatePeriod('${t.id}', '${p.id}', 'start', this.value)">
+                        </div>
+                        <div class="input-group">
+                            <label>Fin</label>
+                            <input type="date" value="${p.end}" 
+                                onchange="app.updatePeriod('${t.id}', '${p.id}', 'end', this.value)">
+                        </div>
+                        <button class="btn-danger" onclick="app.deletePeriod('${t.id}', '${p.id}')" title="Eliminar periodo">
+                            🗑️
+                        </button>
+                    </div>
+                `).join('');
+
+                // Build Visual Blocks
+                const blocksHTML = t.periods.filter(p => p.start && p.end).map(p => {
+                    const s = new Date(p.start).getTime();
+                    const e = new Date(p.end).getTime();
+                    
+                    let left = 0;
+                    let width = 100;
+
+                    if (totalDuration > 0) {
+                        left = ((s - minTime) / totalDuration) * 100;
+                        width = ((e - s) / totalDuration) * 100;
+                    }
+
+                    const months = this.calculateMonths(p.start, p.end);
+                    const blockColor = p.overlap ? 'var(--overlap)' : t.color;
+                    
+                    return `
+                        <div class="period-block" 
+                             style="left: ${left}%; width: ${width}%; background-color: ${blockColor};" 
+                             title="${p.start} a ${p.end} (${months} meses)${p.overlap ? ' - ¡SUPERPOSICIÓN!' : ''}">
+                            ${months} m
+                        </div>
+                    `;
+                }).join('');
+
+                const visualTimelineHTML = t.periods.length > 0 ? `
+                    <div class="visual-container">
+                        <div class="visual-timeline">
+                            ${blocksHTML}
+                        </div>
+                    </div>
+                ` : '<div class="visual-container"><p style="text-align:center; color: var(--text-muted); font-size: 0.9rem;">Agrega periodos para visualizar la línea de tiempo</p></div>';
+
+                return `
+                    <div class="timeline-card">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <input type="text" class="title-input" value="${t.name}" 
+                                    onchange="app.updateTimeline('${t.id}', 'name', this.value)" 
+                                    placeholder="Nombre del proyecto">
+                                <input type="text" value="${t.notes || ''}" 
+                                    onchange="app.updateTimeline('${t.id}', 'notes', this.value)" 
+                                    placeholder="Notas opcionales o descripción...">
+                                <div class="color-picker-wrapper">
+                                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Color base:</span>
+                                    <input type="color" value="${t.color}" 
+                                        onchange="app.updateTimeline('${t.id}', 'color', this.value)">
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn-outline" onclick="app.addPeriod('${t.id}')">
+                                    ➕ Periodo
+                                </button>
+                                <button class="btn-danger" onclick="app.deleteTimeline('${t.id}')">
+                                    🗑️ Eliminar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="periods-section">
+                            ${periodsHTML}
+                        </div>
+
+                        ${visualTimelineHTML}
+                    </div>
+                `;
+            }
+        };
+
+        // Initialize and expose to global scope for inline event handlers
+        window.app = App;
+        window.addEventListener('DOMContentLoaded', () => app.init());
+
+    </script>
+</body>
+</html>
