@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline Manager Pro</title>
+    <title>Timeline Master Pro</title>
     <style>
         :root {
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #f0f0f0;
+            --text-muted: #a0a0a0;
             --primary: #3b82f6;
             --primary-hover: #2563eb;
             --danger: #ef4444;
             --danger-hover: #dc2626;
-            --overlap: #f97316;
-            --border: #e5e7eb;
+            --overlap: #ff4444;
+            --gap-color: #2a2a2a;
+            --border: #333333;
             --radius-lg: 12px;
             --radius-md: 8px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
             --transition: all 0.3s ease;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: var(--font-family);
         }
 
         body {
@@ -36,12 +38,12 @@
             line-height: 1.5;
         }
 
-        .container {
+        .app-container {
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .header {
+        header.header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -50,7 +52,7 @@
             gap: 1rem;
         }
 
-        .header h1 {
+        header.header h1 {
             font-size: 2rem;
             font-weight: 700;
             color: var(--text-main);
@@ -81,7 +83,7 @@
         }
 
         .btn-danger {
-            background-color: #fee2e2;
+            background-color: #311818;
             color: var(--danger);
             padding: 0.5rem 1rem;
         }
@@ -99,7 +101,18 @@
         }
 
         .btn-outline:hover {
-            background-color: var(--bg-color);
+            background-color: #2a2a2a;
+        }
+
+        .btn-save {
+            background-color: #2a2a2a;
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .btn-save:hover {
+            background-color: #333333;
         }
 
         .timeline-card {
@@ -110,6 +123,48 @@
             box-shadow: var(--shadow);
             animation: slideUp 0.4s ease-out;
             border: 1px solid var(--border);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .timeline-card.collapsed {
+            cursor: pointer;
+            padding: 1rem 1.5rem;
+            height: 60px;
+        }
+
+        .timeline-card.collapsed:hover {
+            background-color: #242424;
+        }
+
+        .card-summary {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .timeline-card.collapsed .card-summary {
+            display: flex;
+        }
+
+        .timeline-card.collapsed .expanded-content {
+            display: none;
+        }
+
+        .summary-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .expand-icon {
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .timeline-card.collapsed:hover .expand-icon {
+            transform: translateY(2px);
         }
 
         @keyframes slideUp {
@@ -117,20 +172,17 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .card-header {
+        .card-header-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            justify-content: flex-end;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border);
-            gap: 1rem;
-            flex-wrap: wrap;
         }
 
-        .card-title-group {
+        .title-group {
             flex: 1;
-            min-width: 300px;
+            margin-right: 1rem;
         }
 
         input[type="text"], input[type="date"] {
@@ -141,13 +193,13 @@
             font-size: 0.95rem;
             color: var(--text-main);
             transition: border-color 0.2s;
-            background-color: #f9fafb;
+            background-color: #161616;
         }
 
         input[type="text"]:focus, input[type="date"]:focus {
             outline: none;
             border-color: var(--primary);
-            background-color: white;
+            background-color: #1a1a1a;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
@@ -165,51 +217,39 @@
             border-bottom: 2px solid var(--primary) !important;
         }
 
-        .color-picker-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        input[type="color"] {
-            -webkit-appearance: none;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            padding: 0;
-            background: none;
-        }
-
-        input[type="color"]::-webkit-color-swatch-wrapper {
-            padding: 0;
-        }
-
-        input[type="color"]::-webkit-color-swatch {
-            border: 2px solid var(--border);
-            border-radius: 50%;
-        }
-
         .periods-section {
             margin-bottom: 1.5rem;
         }
 
         .period-item {
-            display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            gap: 1rem;
-            align-items: center;
-            background-color: var(--bg-color);
+            background-color: #161616;
             padding: 1rem;
             border-radius: var(--radius-md);
             margin-bottom: 0.75rem;
-            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
         }
 
-        .period-item:hover {
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        .period-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .period-view {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .period-item.view-mode .period-form {
+            display: none;
+        }
+
+        .period-item:not(.view-mode) .period-view {
+            display: none;
         }
 
         .input-group label {
@@ -231,11 +271,11 @@
         .visual-timeline {
             position: relative;
             height: 48px;
-            background-color: #e5e7eb;
+            background-color: var(--gap-color);
             border-radius: 24px;
             width: 100%;
             overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .period-block {
@@ -249,12 +289,13 @@
             font-weight: 700;
             border-radius: 24px;
             transition: var(--transition);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             padding: 0 0.5rem;
             user-select: none;
+            background: linear-gradient(135deg, #FF69B4, #8A2BE2);
         }
 
         .period-block:hover {
@@ -263,10 +304,55 @@
             z-index: 10;
         }
 
+        .overlap-block {
+            background-image: repeating-linear-gradient(
+                -45deg,
+                var(--overlap),
+                var(--overlap) 10px,
+                #FF6347 10px,
+                #FF6347 20px
+            ) !important;
+            border: 1px solid #FF6347;
+        }
+
+        .gap-block {
+            position: absolute;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            user-select: none;
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 5px,
+                rgba(255, 255, 255, 0.05) 5px,
+                rgba(255, 255, 255, 0.05) 10px
+            );
+        }
+
+        .timeline-axis {
+            position: relative;
+            margin-top: 1rem;
+            height: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .axis-label {
+            position: absolute;
+            transform: translateX(-50%);
+        }
+
         .empty-state {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 4rem 1rem;
             color: var(--text-muted);
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-lg);
         }
 
         .empty-state svg {
@@ -281,7 +367,7 @@
             bottom: 20px;
             right: 20px;
             background-color: var(--text-main);
-            color: white;
+            color: var(--bg-color);
             padding: 1rem 1.5rem;
             border-radius: var(--radius-md);
             box-shadow: var(--shadow);
@@ -298,26 +384,28 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .period-item {
+            .period-form {
                 grid-template-columns: 1fr;
             }
             .header {
                 flex-direction: column;
                 align-items: stretch;
             }
-            .btn-primary {
-                justify-content: center;
+            .period-view {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="app-container">
         <header class="header">
-            <h1>Timeline Manager Pro</h1>
+            <h1>Timeline Master Pro</h1>
             <button class="btn-primary" onclick="app.addTimeline()">
-                <span>➕</span> Nueva Línea de Tiempo
+                <span>➕</span> Nueva Línea
             </button>
         </header>
 
@@ -339,7 +427,7 @@
             },
 
             loadData() {
-                const stored = localStorage.getItem('timeline_data');
+                const stored = localStorage.getItem('timelines_didactic_data');
                 if (stored) {
                     try {
                         this.data.timelines = JSON.parse(stored);
@@ -351,7 +439,7 @@
             },
 
             saveData() {
-                localStorage.setItem('timeline_data', JSON.stringify(this.data.timelines));
+                localStorage.setItem('timelines_didactic_data', JSON.stringify(this.data.timelines));
             },
 
             generateId() {
@@ -370,20 +458,16 @@
             calculateMonths(startStr, endStr) {
                 const s = new Date(startStr);
                 const e = new Date(endStr);
-                
-                // Set to midnight to avoid timezone shift issues
                 s.setMinutes(s.getMinutes() + s.getTimezoneOffset());
                 e.setMinutes(e.getMinutes() + e.getTimezoneOffset());
 
                 const diffTime = e - s;
                 const diffDays = diffTime / (1000 * 60 * 60 * 24);
-                // Average days in a month: 30.436875
                 const months = diffDays / 30.436875;
                 return Math.max(0, months).toFixed(1);
             },
 
             checkOverlaps(timeline) {
-                // Reset overlaps
                 timeline.periods.forEach(p => p.overlap = false);
 
                 for (let i = 0; i < timeline.periods.length; i++) {
@@ -393,7 +477,6 @@
                         const startB = new Date(timeline.periods[j].start).getTime();
                         const endB = new Date(timeline.periods[j].end).getTime();
 
-                        // Condition for overlap
                         if (startA < endB && endA > startB) {
                             timeline.periods[i].overlap = true;
                             timeline.periods[j].overlap = true;
@@ -404,12 +487,21 @@
 
             // --- Actions ---
 
+            toggleExpandCard(timelineId) {
+                const card = document.querySelector(`.timeline-card[data-id="${timelineId}"]`);
+                if (card) {
+                    const isCollapsed = card.classList.toggle('collapsed');
+                    if (!isCollapsed) {
+                        this.render(); // Re-render to show expanded content
+                    }
+                }
+            },
+
             addTimeline() {
                 const newTimeline = {
                     id: this.generateId(),
-                    name: 'Nueva Línea de Tiempo',
+                    name: 'Timeline Línea',
                     notes: '',
-                    color: '#3b82f6', // Default primary blue
                     periods: []
                 };
                 this.data.timelines.unshift(newTimeline);
@@ -432,7 +524,6 @@
                 if (t) {
                     t[field] = value;
                     this.saveData();
-                    if(field === 'color') this.render(); // Re-render for color change
                 }
             },
 
@@ -448,11 +539,39 @@
                         id: this.generateId(),
                         start: today,
                         end: nextMonthStr,
-                        overlap: false
+                        notes: '',
+                        overlap: false,
+                        editing: true // Key for visibility logic
                     });
                     this.checkOverlaps(t);
                     this.saveData();
                     this.render();
+                }
+            },
+
+            savePeriod(timelineId, periodId) {
+                const t = this.data.timelines.find(t => t.id === timelineId);
+                if (t) {
+                    const p = t.periods.find(p => p.id === periodId);
+                    if (p) {
+                        const startInput = document.getElementById(`start-${periodId}`).value;
+                        const endInput = document.getElementById(`end-${periodId}`).value;
+                        const notesInput = document.getElementById(`notes-${periodId}`).value;
+
+                        if (new Date(endInput) < new Date(startInput)) {
+                            this.showToast('⚠️ La fecha de fin no puede ser menor a la inicial');
+                            return;
+                        }
+
+                        p.start = startInput;
+                        p.end = endInput;
+                        p.notes = notesInput;
+                        p.editing = false; // Key for visibility logic
+                        
+                        this.checkOverlaps(t);
+                        this.saveData();
+                        this.render();
+                    }
                 }
             },
 
@@ -466,30 +585,6 @@
                 }
             },
 
-            updatePeriod(timelineId, periodId, field, value) {
-                const t = this.data.timelines.find(t => t.id === timelineId);
-                if (t) {
-                    const p = t.periods.find(p => p.id === periodId);
-                    if (p) {
-                        p[field] = value;
-                        
-                        // Validation
-                        if (p.start && p.end) {
-                            if (new Date(p.end) < new Date(p.start)) {
-                                this.showToast('⚠️ La fecha de fin no puede ser menor a la inicial');
-                                // Revert visually
-                                this.render();
-                                return;
-                            }
-                        }
-                        
-                        this.checkOverlaps(t);
-                        this.saveData();
-                        this.render();
-                    }
-                }
-            },
-
             // --- Rendering ---
 
             render() {
@@ -499,8 +594,8 @@
                     container.innerHTML = `
                         <div class="empty-state">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                            <h2>No hay líneas de tiempo</h2>
-                            <p>Crea una nueva para comenzar a gestionar tus periodos.</p>
+                            <h2>Sin líneas de tiempo</h2>
+                            <p>Presiona "+ Nueva Línea" para comenzar.</p>
                         </div>
                     `;
                     return;
@@ -510,113 +605,156 @@
             },
 
             createTimelineHTML(t) {
-                // Determine Visual Scale Limits
-                let minTime = Infinity;
-                let maxTime = -Infinity;
+                const periodsHTML = t.periods.map(p => {
+                    const months = this.calculateMonths(p.start, p.end);
+                    return `
+                    <div class="period-item ${p.editing ? '' : 'view-mode'}">
+                        <div class="period-form">
+                            <div class="input-group">
+                                <label>Inicio</label>
+                                <input type="date" id="start-${p.id}" value="${p.start}">
+                            </div>
+                            <div class="input-group">
+                                <label>Fin</label>
+                                <input type="date" id="end-${p.id}" value="${p.end}">
+                            </div>
+                            <div class="input-group">
+                                <label>Notas</label>
+                                <input type="text" id="notes-${p.id}" value="${p.notes}" placeholder="Opcional...">
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: end;">
+                                <button class="btn-save" onclick="app.savePeriod('${t.id}', '${p.id}')">Guardar</button>
+                                <button class="btn-danger" onclick="app.deletePeriod('${t.id}', '${p.id}')">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="period-view">
+                            <div style="font-weight: 600;">${p.start} – ${p.end}</div>
+                            <div style="color: var(--text-muted); flex: 1;">${p.notes || ''}</div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <span style="font-size: 0.9rem; color: var(--text-muted);">${months} meses</span>
+                                <button class="btn-danger" onclick="app.deletePeriod('${t.id}', '${p.id}')">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
 
-                t.periods.forEach(p => {
-                    if(p.start && p.end) {
+                // Visual Timeline Logic
+                let visualContentHTML = '';
+                if (t.periods.length > 0) {
+                    let minTime = Infinity;
+                    let maxTime = -Infinity;
+                    t.periods.forEach(p => {
                         const s = new Date(p.start).getTime();
                         const e = new Date(p.end).getTime();
                         if (s < minTime) minTime = s;
                         if (e > maxTime) maxTime = e;
-                    }
-                });
-
-                const totalDuration = maxTime - minTime;
-
-                // Build Periods Inputs
-                const periodsHTML = t.periods.map(p => `
-                    <div class="period-item">
-                        <div class="input-group">
-                            <label>Inicio</label>
-                            <input type="date" value="${p.start}" 
-                                onchange="app.updatePeriod('${t.id}', '${p.id}', 'start', this.value)">
-                        </div>
-                        <div class="input-group">
-                            <label>Fin</label>
-                            <input type="date" value="${p.end}" 
-                                onchange="app.updatePeriod('${t.id}', '${p.id}', 'end', this.value)">
-                        </div>
-                        <button class="btn-danger" onclick="app.deletePeriod('${t.id}', '${p.id}')" title="Eliminar periodo">
-                            🗑️
-                        </button>
-                    </div>
-                `).join('');
-
-                // Build Visual Blocks
-                const blocksHTML = t.periods.filter(p => p.start && p.end).map(p => {
-                    const s = new Date(p.start).getTime();
-                    const e = new Date(p.end).getTime();
+                    });
+                    const totalDuration = maxTime - minTime;
                     
-                    let left = 0;
-                    let width = 100;
-
                     if (totalDuration > 0) {
-                        left = ((s - minTime) / totalDuration) * 100;
-                        width = ((e - s) / totalDuration) * 100;
+                        // Create visual blocks
+                        let currentPosTime = minTime;
+                        const sortedPeriods = [...t.periods].sort((a, b) => new Date(a.start) - new Date(b.start));
+                        
+                        // Add gaps and periods
+                        for (const p of sortedPeriods) {
+                            const pStartTime = new Date(p.start).getTime();
+                            const pEndTime = new Date(p.end).getTime();
+
+                            // Add gap if needed
+                            if (pStartTime > currentPosTime) {
+                                const gapDuration = pStartTime - currentPosTime;
+                                const gapWidth = (gapDuration / totalDuration) * 100;
+                                const gapLeft = ((currentPosTime - minTime) / totalDuration) * 100;
+                                visualContentHTML += `<div class="gap-block" style="left: ${gapLeft}%; width: ${gapWidth}%;">sin registro</div>`;
+                            }
+
+                            // Add period block
+                            const months = this.calculateMonths(p.start, p.end);
+                            const width = ((pEndTime - pStartTime) / totalDuration) * 100;
+                            const left = ((pStartTime - minTime) / totalDuration) * 100;
+                            const overlapClass = p.overlap ? 'overlap-block' : '';
+                            visualContentHTML += `
+                                <div class="period-block ${overlapClass}" 
+                                     style="left: ${left}%; width: ${width}%;" 
+                                     title="${p.start} a ${p.end} (${months} meses)${p.overlap ? ' - ¡SUPERPOSICIÓN!' : ''}">
+                                    ${months} m
+                                </div>`;
+                            currentPosTime = Math.max(currentPosTime, pEndTime);
+                        }
+
+                        // Add final axis labels
+                        const startDate = new Date(minTime);
+                        const endDate = new Date(maxTime);
+                        visualContentHTML = `
+                            <div class="visual-timeline">${visualContentHTML}</div>
+                            <div class="timeline-axis">
+                                <span class="axis-label" style="left: 0%;">${startDate.toISOString().split('T')[0]}</span>
+                                <span class="axis-label" style="left: 100%;">${endDate.toISOString().split('T')[0]}</span>
+                            </div>
+                        `;
+                    } else {
+                        // Single point period
+                        const months = this.calculateMonths(t.periods[0].start, t.periods[0].end);
+                        visualContentHTML = `
+                            <div class="visual-timeline">
+                                <div class="period-block" style="left: 0%; width: 100%;" title="${months} meses">${months} m</div>
+                            </div>
+                            <div class="timeline-axis">
+                                <span class="axis-label" style="left: 0%;">${t.periods[0].start}</span>
+                                <span class="axis-label" style="left: 100%;">${t.periods[0].end}</span>
+                            </div>
+                        `;
                     }
-
-                    const months = this.calculateMonths(p.start, p.end);
-                    const blockColor = p.overlap ? 'var(--overlap)' : t.color;
-                    
-                    return `
-                        <div class="period-block" 
-                             style="left: ${left}%; width: ${width}%; background-color: ${blockColor};" 
-                             title="${p.start} a ${p.end} (${months} meses)${p.overlap ? ' - ¡SUPERPOSICIÓN!' : ''}">
-                            ${months} m
-                        </div>
-                    `;
-                }).join('');
-
-                const visualTimelineHTML = t.periods.length > 0 ? `
-                    <div class="visual-container">
-                        <div class="visual-timeline">
-                            ${blocksHTML}
-                        </div>
-                    </div>
-                ` : '<div class="visual-container"><p style="text-align:center; color: var(--text-muted); font-size: 0.9rem;">Agrega periodos para visualizar la línea de tiempo</p></div>';
+                } else {
+                    visualContentHTML = '<div class="empty-state" style="padding: 2rem; border-style: none;">Agrega periodos para visualizar</div>';
+                }
 
                 return `
-                    <div class="timeline-card">
-                        <div class="card-header">
-                            <div class="card-title-group">
-                                <input type="text" class="title-input" value="${t.name}" 
-                                    onchange="app.updateTimeline('${t.id}', 'name', this.value)" 
-                                    placeholder="Nombre del proyecto">
-                                <input type="text" value="${t.notes || ''}" 
-                                    onchange="app.updateTimeline('${t.id}', 'notes', this.value)" 
-                                    placeholder="Notas opcionales o descripción...">
-                                <div class="color-picker-wrapper">
-                                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Color base:</span>
-                                    <input type="color" value="${t.color}" 
-                                        onchange="app.updateTimeline('${t.id}', 'color', this.value)">
+                    <div class="timeline-card collapsed" data-id="${t.id}">
+                        <div class="card-summary" onclick="app.toggleExpandCard('${t.id}')">
+                            <div class="summary-info">
+                                <div style="font-weight: 700; font-size: 1.1rem;">${t.name}</div>
+                                <div style="color: var(--text-muted); font-size: 0.9rem;">${t.periods.length} periodos</div>
+                            </div>
+                            <span class="expand-icon">▼</span>
+                        </div>
+
+                        <div class="expanded-content">
+                            <div class="card-header-actions">
+                                <div class="title-group">
+                                    <input type="text" class="title-input" value="${t.name}" 
+                                        onchange="app.updateTimeline('${t.id}', 'name', this.value)" 
+                                        placeholder="Nombre del proyecto">
+                                    <input type="text" value="${t.notes || ''}" 
+                                        onchange="app.updateTimeline('${t.id}', 'notes', this.value)" 
+                                        placeholder="Notas opcionales o descripción...">
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; align-items: start;">
+                                    <button class="btn-outline" onclick="app.addPeriod('${t.id}')">
+                                        ➕ Periodo
+                                    </button>
+                                    <button class="btn-danger" onclick="app.deleteTimeline('${t.id}')">
+                                        🗑️ Eliminar
+                                    </button>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn-outline" onclick="app.addPeriod('${t.id}')">
-                                    ➕ Periodo
-                                </button>
-                                <button class="btn-danger" onclick="app.deleteTimeline('${t.id}')">
-                                    🗑️ Eliminar
-                                </button>
+
+                            <div class="periods-section">
+                                ${periodsHTML}
+                            </div>
+
+                            <div class="visual-container">
+                                ${visualContentHTML}
                             </div>
                         </div>
-
-                        <div class="periods-section">
-                            ${periodsHTML}
-                        </div>
-
-                        ${visualTimelineHTML}
                     </div>
                 `;
             }
         };
 
-        // Initialize and expose to global scope for inline event handlers
         window.app = App;
         window.addEventListener('DOMContentLoaded', () => app.init());
-
     </script>
 </body>
 </html>
