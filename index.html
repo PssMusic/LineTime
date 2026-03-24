@@ -6,29 +6,50 @@
     <title>Timeline Master Pro</title>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #f0f0f0;
-            --text-muted: #a0a0a0;
+            /* Light Theme Variables */
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
             --primary: #3b82f6;
             --primary-hover: #2563eb;
             --danger: #ef4444;
             --danger-hover: #dc2626;
-            --overlap: #ff4444;
-            --gap-color: #2a2a2a;
-            --border: #333333;
-            --radius-lg: 12px;
+            --overlap: #f97316;
+            --gap-bg: #e2e8f0;
+            --gap-text: #94a3b8;
+            --border: #cbd5e1;
+            --card-hover: #f8fafc;
+            
+            --radius-lg: 16px;
             --radius-md: 8px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-            --transition: all 0.3s ease;
-            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Variables */
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #60a5fa;
+            --primary-hover: #3b82f6;
+            --danger: #f87171;
+            --danger-hover: #ef4444;
+            --overlap: #fb923c;
+            --gap-bg: #334155;
+            --gap-text: #64748b;
+            --border: #334155;
+            --card-hover: #26354a;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: var(--font-family);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
@@ -36,14 +57,15 @@
             color: var(--text-main);
             padding: 2rem 1rem;
             line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .app-container {
-            max-width: 1200px;
+        .container {
+            max-width: 1000px;
             margin: 0 auto;
         }
 
-        header.header {
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -52,314 +74,367 @@
             gap: 1rem;
         }
 
-        header.header h1 {
+        h1 {
             font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-main);
+            font-weight: 800;
             letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
         }
 
         button {
             cursor: pointer;
             border: none;
             border-radius: var(--radius-md);
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             font-weight: 600;
             font-size: 0.9rem;
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            justify-content: center;
         }
 
         .btn-primary {
             background-color: var(--primary);
-            color: white;
-            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .btn-primary:hover {
             background-color: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
-        .btn-danger {
-            background-color: #311818;
-            color: var(--danger);
-            padding: 0.5rem 1rem;
-        }
-
-        .btn-danger:hover {
-            background-color: var(--danger);
-            color: white;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--border);
+        .btn-icon {
+            background-color: var(--card-bg);
             color: var(--text-main);
-            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            padding: 0.6rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
         }
 
-        .btn-outline:hover {
-            background-color: #2a2a2a;
+        .btn-icon:hover {
+            background-color: var(--gap-bg);
+        }
+
+        .btn-text {
+            background: transparent;
+            color: var(--text-muted);
+            padding: 0.4rem 0.8rem;
+        }
+
+        .btn-text:hover {
+            color: var(--text-main);
+            background-color: var(--gap-bg);
+        }
+
+        .btn-danger-text {
+            background: transparent;
+            color: var(--danger);
+            padding: 0.4rem;
+        }
+
+        .btn-danger-text:hover {
+            background-color: rgba(239, 68, 68, 0.1);
         }
 
         .btn-save {
-            background-color: #2a2a2a;
-            color: var(--text-main);
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border);
+            background-color: #10b981;
+            color: white;
         }
 
         .btn-save:hover {
-            background-color: #333333;
+            background-color: #059669;
         }
 
         .timeline-card {
             background-color: var(--card-bg);
             border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             box-shadow: var(--shadow);
-            animation: slideUp 0.4s ease-out;
             border: 1px solid var(--border);
+            transition: var(--transition);
             overflow: hidden;
+        }
+
+        .timeline-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
             transition: var(--transition);
         }
 
-        .timeline-card.collapsed {
-            cursor: pointer;
-            padding: 1rem 1.5rem;
-            height: 60px;
+        .card-header:hover {
+            background-color: var(--card-hover);
         }
 
-        .timeline-card.collapsed:hover {
-            background-color: #242424;
-        }
-
-        .card-summary {
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-            height: 100%;
-        }
-
-        .timeline-card.collapsed .card-summary {
-            display: flex;
-        }
-
-        .timeline-card.collapsed .expanded-content {
-            display: none;
-        }
-
-        .summary-info {
+        .card-title-display {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
-        .expand-icon {
+        .card-badges {
+            font-size: 0.8rem;
+            background-color: var(--gap-bg);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
             color: var(--text-muted);
-            transition: var(--transition);
+            font-weight: 600;
         }
 
-        .timeline-card.collapsed:hover .expand-icon {
-            transform: translateY(2px);
+        .expand-icon {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: transform 0.3s;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+        .expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .card-body {
+            display: none;
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .expanded .card-body {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .card-header-actions {
+        .config-row {
             display: flex;
-            justify-content: flex-end;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .title-group {
-            flex: 1;
-            margin-right: 1rem;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         input[type="text"], input[type="date"] {
-            width: 100%;
-            padding: 0.75rem;
+            padding: 0.6rem 1rem;
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             font-size: 0.95rem;
             color: var(--text-main);
+            background-color: var(--bg-color);
             transition: border-color 0.2s;
-            background-color: #161616;
+            flex: 1;
+            min-width: 200px;
         }
 
         input[type="text"]:focus, input[type="date"]:focus {
             outline: none;
             border-color: var(--primary);
-            background-color: #1a1a1a;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        .title-input {
-            font-size: 1.5rem !important;
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+            background: none;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch { border: 2px solid var(--border); border-radius: 50%; }
+
+        .section-title {
+            font-size: 0.9rem;
             font-weight: 700;
-            border: none !important;
-            background: transparent !important;
-            padding: 0.25rem 0 !important;
-            margin-bottom: 0.5rem;
-            box-shadow: none !important;
-        }
-
-        .title-input:focus {
-            border-bottom: 2px solid var(--primary) !important;
-        }
-
-        .periods-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .period-item {
-            background-color: #161616;
-            padding: 1rem;
-            border-radius: var(--radius-md);
-            margin-bottom: 0.75rem;
-            border: 1px solid var(--border);
-            position: relative;
-        }
-
-        .period-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr auto auto;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .period-view {
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        /* Editor de Periodo */
+        .period-editor {
+            background-color: var(--bg-color);
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; height: 0; padding: 0; overflow: hidden; }
+            to { opacity: 1; height: auto; }
+        }
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .period-item.view-mode .period-form {
-            display: none;
+        .editor-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
         }
 
-        .period-item:not(.view-mode) .period-view {
-            display: none;
-        }
-
-        .input-group label {
-            display: block;
+        .editor-group label {
             font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 0.25rem;
-            text-transform: uppercase;
         }
 
-        .visual-container {
+        /* Timeline Visual */
+        .timeline-wrapper {
             position: relative;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px dashed var(--border);
+            padding: 3rem 0 2rem 0;
+            margin-top: 1rem;
         }
 
-        .visual-timeline {
+        .timeline-track {
             position: relative;
-            height: 48px;
-            background-color: var(--gap-color);
-            border-radius: 24px;
+            height: 12px;
+            background-color: transparent;
             width: 100%;
-            overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Línea base conectora */
+        .timeline-base-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: var(--gap-bg);
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 2px;
+            z-index: 1;
         }
 
         .period-block {
             position: absolute;
-            height: 100%;
+            height: 24px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 0.85rem;
+            color: #ffffff;
+            font-size: 0.75rem;
             font-weight: 700;
-            border-radius: 24px;
-            transition: var(--transition);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 3;
+            cursor: pointer;
+            transition: transform 0.2s;
+            user-select: none;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
             padding: 0 0.5rem;
-            user-select: none;
-            background: linear-gradient(135deg, #FF69B4, #8A2BE2);
         }
 
         .period-block:hover {
-            filter: brightness(1.1);
-            transform: scaleY(1.05);
+            transform: scaleY(1.2);
             z-index: 10;
         }
 
-        .overlap-block {
-            background-image: repeating-linear-gradient(
-                -45deg,
-                var(--overlap),
-                var(--overlap) 10px,
-                #FF6347 10px,
-                #FF6347 20px
-            ) !important;
-            border: 1px solid #FF6347;
-        }
-
-        .gap-block {
-            position: absolute;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            user-select: none;
+        .period-block.overlap {
+            background-color: var(--overlap) !important;
             background-image: repeating-linear-gradient(
                 45deg,
                 transparent,
                 transparent 5px,
-                rgba(255, 255, 255, 0.05) 5px,
-                rgba(255, 255, 255, 0.05) 10px
+                rgba(255,255,255,0.2) 5px,
+                rgba(255,255,255,0.2) 10px
             );
         }
 
-        .timeline-axis {
-            position: relative;
-            margin-top: 1rem;
-            height: 20px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
+        /* Nodos (Círculos) en los extremos de los periodos */
+        .node {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #fff;
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4;
+            box-shadow: 0 0 0 3px var(--bg-color);
         }
 
-        .axis-label {
+        /* Gaps (Sin registro) */
+        .gap-block {
             position: absolute;
+            height: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: transparent;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px dotted var(--gap-text);
+        }
+
+        .gap-text {
+            position: absolute;
+            top: -20px;
+            font-size: 0.7rem;
+            color: var(--gap-text);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Etiquetas de Fechas en el Eje */
+        .date-label {
+            position: absolute;
+            top: 25px;
             transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            z-index: 1;
         }
 
         .empty-state {
             text-align: center;
-            padding: 4rem 1rem;
+            padding: 4rem 2rem;
             color: var(--text-muted);
-            border: 2px dashed var(--border);
+            background-color: var(--card-bg);
             border-radius: var(--radius-lg);
-        }
-
-        .empty-state svg {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+            border: 2px dashed var(--border);
         }
 
         .toast {
@@ -367,14 +442,15 @@
             bottom: 20px;
             right: 20px;
             background-color: var(--text-main);
-            color: var(--bg-color);
+            color: var(--card-bg);
             padding: 1rem 1.5rem;
             border-radius: var(--radius-md);
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-hover);
             transform: translateY(100px);
             opacity: 0;
             transition: var(--transition);
-            z-index: 1000;
+            z-index: 9999;
+            font-weight: 600;
         }
 
         .toast.show {
@@ -382,31 +458,27 @@
             opacity: 1;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .period-form {
-                grid-template-columns: 1fr;
-            }
-            .header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .period-view {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
+        @media (max-width: 600px) {
+            .editor-grid { grid-template-columns: 1fr; }
+            .config-row { flex-direction: column; align-items: stretch; }
+            .node { width: 12px; height: 12px; border-width: 3px; }
+            .period-block { font-size: 0.65rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <header class="header">
-            <h1>Timeline Master Pro</h1>
-            <button class="btn-primary" onclick="app.addTimeline()">
-                <span>➕</span> Nueva Línea
-            </button>
+    <div class="container">
+        <header>
+            <h1>Timeline Master</h1>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="app.toggleTheme()" title="Cambiar Tema" id="theme-btn">
+                    🌙
+                </button>
+                <button class="btn-primary" onclick="app.addTimeline()">
+                    ➕ Nueva Línea
+                </button>
+            </div>
         </header>
 
         <main id="app-content">
@@ -418,28 +490,50 @@
     <script>
         const App = {
             data: {
-                timelines: []
+                timelines: [],
+                theme: 'light'
             },
 
             init() {
+                this.loadTheme();
                 this.loadData();
                 this.render();
             },
 
+            loadTheme() {
+                const savedTheme = localStorage.getItem('tm_theme') || 'light';
+                this.data.theme = savedTheme;
+                this.applyTheme();
+            },
+
+            toggleTheme() {
+                this.data.theme = this.data.theme === 'light' ? 'dark' : 'light';
+                localStorage.setItem('tm_theme', this.data.theme);
+                this.applyTheme();
+            },
+
+            applyTheme() {
+                document.documentElement.setAttribute('data-theme', this.data.theme);
+                document.getElementById('theme-btn').textContent = this.data.theme === 'light' ? '🌙' : '☀️';
+            },
+
             loadData() {
-                const stored = localStorage.getItem('timelines_didactic_data');
+                const stored = localStorage.getItem('tm_data_v2');
                 if (stored) {
                     try {
                         this.data.timelines = JSON.parse(stored);
+                        // Asegurar que al cargar, todos los editores estén cerrados
+                        this.data.timelines.forEach(t => {
+                            t.periods.forEach(p => p.isEditing = false);
+                        });
                     } catch (e) {
-                        console.error("Error parsing local storage data", e);
                         this.data.timelines = [];
                     }
                 }
             },
 
             saveData() {
-                localStorage.setItem('timelines_didactic_data', JSON.stringify(this.data.timelines));
+                localStorage.setItem('tm_data_v2', JSON.stringify(this.data.timelines));
             },
 
             generateId() {
@@ -453,25 +547,22 @@
                 setTimeout(() => toast.classList.remove('show'), 3000);
             },
 
-            // --- Logic Methods ---
-
             calculateMonths(startStr, endStr) {
                 const s = new Date(startStr);
                 const e = new Date(endStr);
                 s.setMinutes(s.getMinutes() + s.getTimezoneOffset());
                 e.setMinutes(e.getMinutes() + e.getTimezoneOffset());
-
                 const diffTime = e - s;
                 const diffDays = diffTime / (1000 * 60 * 60 * 24);
-                const months = diffDays / 30.436875;
-                return Math.max(0, months).toFixed(1);
+                return Math.max(0, diffDays / 30.436875).toFixed(1);
             },
 
             checkOverlaps(timeline) {
                 timeline.periods.forEach(p => p.overlap = false);
-
                 for (let i = 0; i < timeline.periods.length; i++) {
+                    if(timeline.periods[i].isEditing) continue; // Ignorar si se está editando
                     for (let j = i + 1; j < timeline.periods.length; j++) {
+                        if(timeline.periods[j].isEditing) continue;
                         const startA = new Date(timeline.periods[i].start).getTime();
                         const endA = new Date(timeline.periods[i].end).getTime();
                         const startB = new Date(timeline.periods[j].start).getTime();
@@ -485,65 +576,65 @@
                 }
             },
 
-            // --- Actions ---
-
-            toggleExpandCard(timelineId) {
-                const card = document.querySelector(`.timeline-card[data-id="${timelineId}"]`);
-                if (card) {
-                    const isCollapsed = card.classList.toggle('collapsed');
-                    if (!isCollapsed) {
-                        this.render(); // Re-render to show expanded content
-                    }
-                }
-            },
+            // --- Acciones de Timeline ---
 
             addTimeline() {
-                const newTimeline = {
+                this.data.timelines.unshift({
                     id: this.generateId(),
-                    name: 'Timeline Línea',
-                    notes: '',
+                    name: 'Nueva Línea de Tiempo',
+                    color: '#3b82f6',
+                    expanded: true,
                     periods: []
-                };
-                this.data.timelines.unshift(newTimeline);
+                });
                 this.saveData();
                 this.render();
-                this.showToast('Línea de tiempo creada');
+                this.showToast('Línea creada');
             },
 
             deleteTimeline(id) {
-                if(confirm('¿Estás seguro de eliminar esta línea de tiempo completa?')) {
+                if(confirm('¿Eliminar esta línea de tiempo por completo?')) {
                     this.data.timelines = this.data.timelines.filter(t => t.id !== id);
                     this.saveData();
                     this.render();
-                    this.showToast('Línea de tiempo eliminada');
                 }
             },
 
-            updateTimeline(id, field, value) {
+            toggleTimeline(id) {
+                const t = this.data.timelines.find(t => t.id === id);
+                if (t) {
+                    t.expanded = !t.expanded;
+                    this.render();
+                }
+            },
+
+            updateTimelineField(id, field, value) {
                 const t = this.data.timelines.find(t => t.id === id);
                 if (t) {
                     t[field] = value;
                     this.saveData();
+                    if(field === 'color') this.render();
                 }
             },
+
+            // --- Acciones de Periodos ---
 
             addPeriod(timelineId) {
                 const t = this.data.timelines.find(t => t.id === timelineId);
                 if (t) {
+                    // Cerrar otros editores en la misma línea
+                    t.periods.forEach(p => p.isEditing = false);
+                    
                     const today = new Date().toISOString().split('T')[0];
                     const nextMonth = new Date();
                     nextMonth.setMonth(nextMonth.getMonth() + 1);
-                    const nextMonthStr = nextMonth.toISOString().split('T')[0];
-
+                    
                     t.periods.push({
                         id: this.generateId(),
                         start: today,
-                        end: nextMonthStr,
-                        notes: '',
+                        end: nextMonth.toISOString().split('T')[0],
                         overlap: false,
-                        editing: true // Key for visibility logic
+                        isEditing: true // Abre la caja de edición
                     });
-                    this.checkOverlaps(t);
                     this.saveData();
                     this.render();
                 }
@@ -554,24 +645,36 @@
                 if (t) {
                     const p = t.periods.find(p => p.id === periodId);
                     if (p) {
-                        const startInput = document.getElementById(`start-${periodId}`).value;
-                        const endInput = document.getElementById(`end-${periodId}`).value;
-                        const notesInput = document.getElementById(`notes-${periodId}`).value;
+                        const sInput = document.getElementById(`start-${periodId}`).value;
+                        const eInput = document.getElementById(`end-${periodId}`).value;
 
-                        if (new Date(endInput) < new Date(startInput)) {
-                            this.showToast('⚠️ La fecha de fin no puede ser menor a la inicial');
+                        if (!sInput || !eInput) {
+                            this.showToast('⚠️ Las fechas son obligatorias');
                             return;
                         }
 
-                        p.start = startInput;
-                        p.end = endInput;
-                        p.notes = notesInput;
-                        p.editing = false; // Key for visibility logic
+                        if (new Date(eInput) <= new Date(sInput)) {
+                            this.showToast('⚠️ La fecha de fin debe ser mayor a la inicial');
+                            return;
+                        }
+
+                        p.start = sInput;
+                        p.end = eInput;
+                        p.isEditing = false; // Cierra la caja, muestra la línea bien
                         
                         this.checkOverlaps(t);
                         this.saveData();
                         this.render();
+                        this.showToast('Periodo guardado');
                     }
+                }
+            },
+
+            editPeriod(timelineId, periodId) {
+                const t = this.data.timelines.find(t => t.id === timelineId);
+                if (t) {
+                    t.periods.forEach(p => p.isEditing = (p.id === periodId));
+                    this.render();
                 }
             },
 
@@ -585,7 +688,7 @@
                 }
             },
 
-            // --- Rendering ---
+            // --- Renderizado Visual ---
 
             render() {
                 const container = document.getElementById('app-content');
@@ -593,160 +696,155 @@
                 if (this.data.timelines.length === 0) {
                     container.innerHTML = `
                         <div class="empty-state">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                            <h2>Sin líneas de tiempo</h2>
-                            <p>Presiona "+ Nueva Línea" para comenzar.</p>
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                            <h2>No tienes líneas de tiempo</h2>
+                            <p>Haz clic en "+ Nueva Línea" para comenzar a planificar.</p>
                         </div>
                     `;
                     return;
                 }
 
-                container.innerHTML = this.data.timelines.map(t => this.createTimelineHTML(t)).join('');
+                container.innerHTML = this.data.timelines.map(t => this.renderTimeline(t)).join('');
             },
 
-            createTimelineHTML(t) {
-                const periodsHTML = t.periods.map(p => {
-                    const months = this.calculateMonths(p.start, p.end);
-                    return `
-                    <div class="period-item ${p.editing ? '' : 'view-mode'}">
-                        <div class="period-form">
-                            <div class="input-group">
-                                <label>Inicio</label>
+            renderTimeline(t) {
+                const validPeriods = t.periods.filter(p => !p.isEditing && p.start && p.end);
+                const editingPeriods = t.periods.filter(p => p.isEditing);
+
+                // Construir HTML de las cajas de edición
+                const editorsHTML = editingPeriods.map(p => `
+                    <div class="period-editor">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
+                            <strong>Añadir/Editar Periodo</strong>
+                            <button class="btn-danger-text" onclick="app.deletePeriod('${t.id}', '${p.id}')">Eliminar</button>
+                        </div>
+                        <div class="editor-grid">
+                            <div class="editor-group">
+                                <label>Fecha de Inicio</label>
                                 <input type="date" id="start-${p.id}" value="${p.start}">
                             </div>
-                            <div class="input-group">
-                                <label>Fin</label>
+                            <div class="editor-group">
+                                <label>Fecha de Fin</label>
                                 <input type="date" id="end-${p.id}" value="${p.end}">
                             </div>
-                            <div class="input-group">
-                                <label>Notas</label>
-                                <input type="text" id="notes-${p.id}" value="${p.notes}" placeholder="Opcional...">
-                            </div>
-                            <div style="display: flex; gap: 0.5rem; align-items: end;">
-                                <button class="btn-save" onclick="app.savePeriod('${t.id}', '${p.id}')">Guardar</button>
-                                <button class="btn-danger" onclick="app.deletePeriod('${t.id}', '${p.id}')">🗑️</button>
-                            </div>
                         </div>
-                        <div class="period-view">
-                            <div style="font-weight: 600;">${p.start} – ${p.end}</div>
-                            <div style="color: var(--text-muted); flex: 1;">${p.notes || ''}</div>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <span style="font-size: 0.9rem; color: var(--text-muted);">${months} meses</span>
-                                <button class="btn-danger" onclick="app.deletePeriod('${t.id}', '${p.id}')">🗑️</button>
-                            </div>
+                        <div style="text-align: right; margin-top: 1rem;">
+                            <button class="btn-save" onclick="app.savePeriod('${t.id}', '${p.id}')">✅ Guardar y Ver Línea</button>
                         </div>
                     </div>
-                `}).join('');
+                `).join('');
 
-                // Visual Timeline Logic
-                let visualContentHTML = '';
-                if (t.periods.length > 0) {
-                    let minTime = Infinity;
-                    let maxTime = -Infinity;
-                    t.periods.forEach(p => {
+                // Lógica Gráfica (Diseño Didáctico)
+                let visualHTML = '';
+                
+                if (validPeriods.length > 0) {
+                    // Encontrar rango total
+                    let minTime = Infinity, maxTime = -Infinity;
+                    validPeriods.forEach(p => {
                         const s = new Date(p.start).getTime();
                         const e = new Date(p.end).getTime();
                         if (s < minTime) minTime = s;
                         if (e > maxTime) maxTime = e;
                     });
-                    const totalDuration = maxTime - minTime;
-                    
-                    if (totalDuration > 0) {
-                        // Create visual blocks
-                        let currentPosTime = minTime;
-                        const sortedPeriods = [...t.periods].sort((a, b) => new Date(a.start) - new Date(b.start));
-                        
-                        // Add gaps and periods
-                        for (const p of sortedPeriods) {
-                            const pStartTime = new Date(p.start).getTime();
-                            const pEndTime = new Date(p.end).getTime();
 
-                            // Add gap if needed
-                            if (pStartTime > currentPosTime) {
-                                const gapDuration = pStartTime - currentPosTime;
-                                const gapWidth = (gapDuration / totalDuration) * 100;
-                                const gapLeft = ((currentPosTime - minTime) / totalDuration) * 100;
-                                visualContentHTML += `<div class="gap-block" style="left: ${gapLeft}%; width: ${gapWidth}%;">sin registro</div>`;
+                    const totalDuration = maxTime - minTime;
+
+                    if (totalDuration > 0) {
+                        const sorted = [...validPeriods].sort((a,b) => new Date(a.start) - new Date(b.start));
+                        let trackContent = '';
+                        let currentPos = minTime;
+
+                        sorted.forEach((p, index) => {
+                            const pStart = new Date(p.start).getTime();
+                            const pEnd = new Date(p.end).getTime();
+                            
+                            // Detectar Gaps (Sin registro)
+                            if (pStart > currentPos) {
+                                const gapWidth = ((pStart - currentPos) / totalDuration) * 100;
+                                const gapLeft = ((currentPos - minTime) / totalDuration) * 100;
+                                
+                                // Solo mostrar "sin registro" si el espacio es suficientemente grande visualmente (>5%)
+                                const labelText = gapWidth > 8 ? '<span class="gap-text">Sin registro</span>' : '';
+                                
+                                trackContent += `
+                                    <div class="gap-block" style="left: ${gapLeft}%; width: ${gapWidth}%;">
+                                        ${labelText}
+                                    </div>
+                                `;
                             }
 
-                            // Add period block
+                            // Dibujar Periodo
+                            const width = ((pEnd - pStart) / totalDuration) * 100;
+                            const left = ((pStart - minTime) / totalDuration) * 100;
                             const months = this.calculateMonths(p.start, p.end);
-                            const width = ((pEndTime - pStartTime) / totalDuration) * 100;
-                            const left = ((pStartTime - minTime) / totalDuration) * 100;
-                            const overlapClass = p.overlap ? 'overlap-block' : '';
-                            visualContentHTML += `
-                                <div class="period-block ${overlapClass}" 
-                                     style="left: ${left}%; width: ${width}%;" 
-                                     title="${p.start} a ${p.end} (${months} meses)${p.overlap ? ' - ¡SUPERPOSICIÓN!' : ''}">
-                                    ${months} m
-                                </div>`;
-                            currentPosTime = Math.max(currentPosTime, pEndTime);
-                        }
+                            const bg = p.overlap ? '' : `background-color: ${t.color};`;
+                            const cls = p.overlap ? 'period-block overlap' : 'period-block';
 
-                        // Add final axis labels
-                        const startDate = new Date(minTime);
-                        const endDate = new Date(maxTime);
-                        visualContentHTML = `
-                            <div class="visual-timeline">${visualContentHTML}</div>
-                            <div class="timeline-axis">
-                                <span class="axis-label" style="left: 0%;">${startDate.toISOString().split('T')[0]}</span>
-                                <span class="axis-label" style="left: 100%;">${endDate.toISOString().split('T')[0]}</span>
+                            trackContent += `
+                                <div class="node" style="left: ${left}%; border-color: ${t.color}"></div>
+                                
+                                <div class="${cls}" 
+                                     style="left: ${left}%; width: ${width}%; ${bg}"
+                                     onclick="app.editPeriod('${t.id}', '${p.id}')"
+                                     title="Clic para editar. ${p.start} a ${p.end}">
+                                    ${months}m
+                                </div>
+                                
+                                <div class="node" style="left: ${left + width}%; border-color: ${t.color}"></div>
+                                
+                                <div class="date-label" style="left: ${left}%;">${p.start}</div>
+                                <div class="date-label" style="left: ${left + width}%;">${p.end}</div>
+                            `;
+
+                            currentPos = Math.max(currentPos, pEnd);
+                        });
+
+                        visualHTML = `
+                            <div class="timeline-wrapper">
+                                <div class="timeline-track">
+                                    <div class="timeline-base-line"></div>
+                                    ${trackContent}
+                                </div>
                             </div>
                         `;
                     } else {
-                        // Single point period
-                        const months = this.calculateMonths(t.periods[0].start, t.periods[0].end);
-                        visualContentHTML = `
-                            <div class="visual-timeline">
-                                <div class="period-block" style="left: 0%; width: 100%;" title="${months} meses">${months} m</div>
-                            </div>
-                            <div class="timeline-axis">
-                                <span class="axis-label" style="left: 0%;">${t.periods[0].start}</span>
-                                <span class="axis-label" style="left: 100%;">${t.periods[0].end}</span>
-                            </div>
-                        `;
+                        // Caso especial: inicio y fin son el mismo día exacto en todos los periodos
+                        visualHTML = `<div class="timeline-wrapper"><p style="text-align:center; color: var(--text-muted)">El rango de fechas es de 0 días.</p></div>`;
                     }
-                } else {
-                    visualContentHTML = '<div class="empty-state" style="padding: 2rem; border-style: none;">Agrega periodos para visualizar</div>';
+                } else if (editingPeriods.length === 0) {
+                    visualHTML = `<div class="empty-state" style="padding: 2rem; border: none;">No hay fechas registradas.</div>`;
                 }
 
+                // Ensamblar Tarjeta
                 return `
-                    <div class="timeline-card collapsed" data-id="${t.id}">
-                        <div class="card-summary" onclick="app.toggleExpandCard('${t.id}')">
-                            <div class="summary-info">
-                                <div style="font-weight: 700; font-size: 1.1rem;">${t.name}</div>
-                                <div style="color: var(--text-muted); font-size: 0.9rem;">${t.periods.length} periodos</div>
+                    <div class="timeline-card ${t.expanded ? 'expanded' : ''}" data-id="${t.id}">
+                        <div class="card-header" onclick="app.toggleTimeline('${t.id}')">
+                            <div class="card-title-display">
+                                <div style="width:16px; height:16px; border-radius:50%; background-color:${t.color}"></div>
+                                ${t.name || 'Sin título'}
+                                <span class="card-badges">${validPeriods.length} periodos</span>
                             </div>
-                            <span class="expand-icon">▼</span>
+                            <div class="expand-icon">▼</div>
                         </div>
 
-                        <div class="expanded-content">
-                            <div class="card-header-actions">
-                                <div class="title-group">
-                                    <input type="text" class="title-input" value="${t.name}" 
-                                        onchange="app.updateTimeline('${t.id}', 'name', this.value)" 
-                                        placeholder="Nombre del proyecto">
-                                    <input type="text" value="${t.notes || ''}" 
-                                        onchange="app.updateTimeline('${t.id}', 'notes', this.value)" 
-                                        placeholder="Notas opcionales o descripción...">
-                                </div>
-                                <div style="display: flex; gap: 0.5rem; align-items: start;">
-                                    <button class="btn-outline" onclick="app.addPeriod('${t.id}')">
-                                        ➕ Periodo
-                                    </button>
-                                    <button class="btn-danger" onclick="app.deleteTimeline('${t.id}')">
-                                        🗑️ Eliminar
-                                    </button>
-                                </div>
+                        <div class="card-body">
+                            <div class="config-row">
+                                <input type="text" value="${t.name}" 
+                                    onblur="app.updateTimelineField('${t.id}', 'name', this.value)" 
+                                    placeholder="Título de la línea">
+                                <input type="color" value="${t.color}" 
+                                    onchange="app.updateTimelineField('${t.id}', 'color', this.value)"
+                                    title="Color de la línea">
+                                <button class="btn-text" onclick="app.addPeriod('${t.id}')">➕ Agregar Fecha</button>
+                                <button class="btn-danger-text" onclick="app.deleteTimeline('${t.id}')" style="margin-left: auto;">Eliminar Línea</button>
                             </div>
 
-                            <div class="periods-section">
-                                ${periodsHTML}
-                            </div>
+                            ${editorsHTML}
 
-                            <div class="visual-container">
-                                ${visualContentHTML}
+                            <div class="section-title">
+                                <span>Vista Gráfica</span>
                             </div>
+                            ${visualHTML}
                         </div>
                     </div>
                 `;
